@@ -40,6 +40,16 @@ section{max-width:1250px;margin:auto;padding:55px 20px}
 h1{font-size:clamp(2rem,5vw,3rem);font-weight:800;line-height:1.25;text-align:center}
 h2{font-size:2.5rem;font-weight:800;margin-bottom:20px;text-align:center}
 p{color:var(--gray)}
+.nav{
+  position:relative;
+}
+
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
 
 /* HERO */
 .hero{display:flex;flex-direction:column;gap:40px;align-items:center;text-align:center}
@@ -70,7 +80,9 @@ footer{background:#020617;color:#cbd5f5}
 .footer-top{max-width:1250px;margin:auto;padding:90px 20px;text-align:center}
 .footer-top h3{font-size:2.2rem;font-weight:800}
 .footer-top p{margin:20px auto 40px;max-width:520px}
-.footer-top input{padding:16px;width:280px;border-radius:14px;border:none;margin-right:10px}
+.footer-top input{
+  margin-bottom:12px;
+}
 .footer-bottom{border-top:1px solid #1e293b;padding:30px 20px}
 .footer-bottom ul{display:flex;gap:25px;justify-content:center;list-style:none;font-size:.9rem}
 
@@ -84,7 +96,147 @@ footer{background:#020617;color:#cbd5f5}
 .copy{font-size:.8rem;color:var(--primary);cursor:pointer;margin-top:4px;display:inline-block}
 .hidden{display:none}
 .success{background:#ecfdf5;color:#065f46;padding:20px;border-radius:14px;margin-top:20px;font-weight:600}
-@media(max-width:900px){h1{font-size:2.1rem}.btn{width:100%}.hero-features{text-align:center}}h1{font-size:2.5rem}}
+.menu-toggle{
+  display:none;
+  font-size:1.8rem;
+  background:none;
+  border:none;
+  cursor:pointer;
+  margin-right:10px;
+  position:relative;
+  z-index:5000;
+}
+
+/* MOBILE MENU */
+@media (max-width:900px){
+  nav ul{
+    position:absolute;
+    top:100%;
+    left:0;
+    right:0;
+    background:#fff;
+    flex-direction:column;
+    display:none;
+    box-shadow:0 15px 30px rgba(0,0,0,.1);
+    z-index:2000;
+  }
+
+  nav ul.show{
+    display:flex;
+  }
+
+  .menu-toggle{
+    display:block;
+    position:relative;
+    z-index:5000;
+  }
+
+  .nav{
+    justify-content:space-between;
+  }
+
+  .nav-actions{
+    margin-left:auto;
+  }
+}
+
+  .menu-toggle{
+    display:block;
+  }
+
+@media(max-width:600px){
+  h1{
+    font-size:1.8rem;
+    line-height:1.3;
+  }
+}
+
+@media(max-width:600px){
+  h2{
+    font-size:2rem;
+    line-height:1.25;
+  }
+}
+@media(max-width:700px){
+
+  }
+
+  .home-blocks > div:nth-child(2){
+    order:2;
+  }
+
+  .home-blocks > div:nth-child(1){
+    order:1;
+  }
+.home-cards{
+  grid-template-columns:1.2fr 1fr;
+}
+
+@media(max-width:700px){
+  .home-cards{
+    grid-template-columns:1fr;
+  }
+}
+@media(max-width:600px){
+  h1{
+    font-size:1.9rem !important;
+    line-height:1.25;
+  }
+
+  h2{
+    font-size:2rem !important;
+    line-height:1.25;
+  }
+}
+@media(max-width:700px){
+  .home-cards > div:first-child{
+    order:2;
+  }
+
+  .home-cards > div:last-child{
+    order:1;
+  }
+}
+.home-cta{
+  grid-column:1 / -1;   /* prend toute la largeur du grid */
+  display:flex;
+  justify-content:center;
+  margin:28px 0;
+}
+@media(max-width:700px){
+  .home-cta{
+    width:100%;
+    justify-content:center;
+  }
+}
+
+.toast{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#0f172a;
+  color:#fff;
+  padding:16px 22px;
+  border-radius:14px;
+  box-shadow:0 15px 40px rgba(0,0,0,.3);
+  font-weight:600;
+  z-index:5000;
+  animation:slideUp .4s ease;
+}
+
+@keyframes slideUp{
+  from{opacity:0;transform:translate(-50%,20px)}
+  to{opacity:1;transform:translate(-50%,0)}
+}
+
+@media(max-width:900px){h1{font-size:2.1rem}.btn{width:100%}.hero-features{text-align:center}}h1{font-size:2.5rem}
+.menu-toggle{
+    position:relative;
+    z-index:5000;
+  }
+
+
 </style>
 </head>
 <body>
@@ -93,19 +245,25 @@ footer{background:#020617;color:#cbd5f5}
 <header>
   <div class="nav">
     <div class="logo">Secure<span>Deals</span></div>
-    <nav><ul>
-      <li><a href="#accueil">Accueil</a></li>
-      <li><a href="#fonctionnement">Fonctionnement</a></li>
-      <li><a href="#avis">Avis clients</a></li>
-      <li><a href="#apropos">Pourquoi SecureDeals</a></li>
-    </ul></nav>
-    <button class="btn" onclick="openModal()">Démarrer une transaction</button>
+    <nav>
+  <ul>
+    <li><a href="#accueil" onclick="toggleMenu()">Accueil</a></li>
+    <li><a href="#fonctionnement">Fonctionnement</a></li>
+    <li><a href="#avis">Avis clients</a></li>
+    <li><a href="#apropos">Pourquoi SecureDeals</a></li>
+  </ul>
+</nav>
+<div class="nav-actions">
+  <button class="btn" onclick="openModal()">Démarrer</button>
+  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+</div>
+
   </div>
 </header>
 
 <section id="accueil">
 <h1 style="margin-bottom:18px;font-weight:700;letter-spacing:-0.8px">La confiance au cœur des transactions</h1>
-<div style="display:grid;grid-template-columns:1.2fr 1fr;gap:30px;align-items:stretch">
+<div class="home-cards" style="display:grid;gap:30px;align-items:stretch">
   <div style="background:#fff;border-radius:18px;padding:28px;box-shadow:0 25px 60px rgba(0,0,0,.07)">
     <div class="hero-features" style="display:flex;flex-direction:column;gap:18px">
       <div><span style="width:42px;height:42px;border-radius:50%;background:#e0e7ff;display:flex;align-items:center;justify-content:center">🔐</span><strong>Sécurisation des fonds</strong></div>
@@ -117,13 +275,14 @@ footer{background:#020617;color:#cbd5f5}
   <div style="background:#fff;border-radius:18px;padding:28px;box-shadow:0 25px 60px rgba(0,0,0,.07);display:flex;align-items:center">
     <p style="font-size:1.05rem"><strong>SecureDeals</strong> est une plateforme de <strong>sécurisation des échanges</strong> entre particuliers. Elle agit comme un tiers de confiance indépendant qui protège simultanément l’acheteur et le vendeur. Les fonds sont conservés jusqu’à validation finale, réduisant drastiquement les litiges et les arnaques.</p>
   </div>
-</div>
-<div style="text-align:center;margin-top:28px">
+<div class="home-cta" style="text-align:center">
   <button class="btn" style="padding:18px 60px;font-size:1.15rem" onclick="openModal()">Démarrer maintenant</button>
 </div>
+</div>
+
 </section>
 
-<div style="height:60px"></div><section id="fonctionnement" style="padding-top:60px">
+<div style="height:20px"></div><section id="fonctionnement" style="padding-top:60px">
   <h2>Comment fonctionne SecureDeals</h2>
   <div class="steps">
     <div class="step"><span>1</span><div style="font-size:2rem">📝</div><b>Création de la transaction</b><p>L’acheteur ou le vendeur initialise la transaction et définit les conditions.</p></div>
@@ -206,6 +365,7 @@ for(let i=1;i<=50;i++){
     </div>
     <p>Transaction fluide, paiement sécurisé et livraison conforme. Service très rassurant.</p>
   </div>`;
+  
 }
 document.getElementById('avg').innerText=(total/50).toFixed(1)+' / 5';
 
@@ -220,12 +380,36 @@ function validate(){
   const fields=document.querySelectorAll('#modal input, #modal textarea, #modal select');
   for(const field of fields){
     if(field.offsetParent!==null && !field.value){
-      alert('Veuillez renseigner tous les détails de la transaction avant validation.');
+      alert('Veuillez renseigner tous les détails de la transaction.');
       return;
     }
   }
-  alert('✅ Transaction validée avec succès');
+
+  // Génération numéro de suivi
+  const tracking = 'SD-' + Date.now().toString().slice(-6);
+
+  // Affichage notification
+  const toast = document.getElementById('toast');
+  toast.innerHTML = `✅ Transaction créée avec succès<br>Numéro de suivi : <strong>${tracking}</strong>`;
+  toast.classList.remove('hidden');
+
+  // Fermer le modal
+  closeModal();
+
+  // Masquer notification après 6 secondes
+  setTimeout(()=>{
+    toast.classList.add('hidden');
+  },6000);
+
+  // Scroll vers accueil
+  document.getElementById('accueil').scrollIntoView({behavior:'smooth'});
 }
+
+function toggleMenu(){
+  document.querySelector('nav ul').classList.toggle('show');
+}
+
 </script>
+<div id="toast" class="toast hidden"></div>
 </body>
 </html>
